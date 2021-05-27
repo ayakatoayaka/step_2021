@@ -12,7 +12,6 @@ class Cache{
 };
 
 void Cache::push(string page_name,string url){
-    
 
     // queueのサイズがcacheのサイズよりも小さい　→　mapとqueueに追加
     // queueのサイズがcacheのサイズよりも大きい && cacheにkeyが存在している　→　cache_queueをtmp_queueに入れたい要素以外を入れ、cache_queueに移した後入れたい要素を入れる

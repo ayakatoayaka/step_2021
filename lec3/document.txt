@@ -1,0 +1,5 @@
+宿題1,2:modularized_calculator.py
+evaluate_1st関数で*/をevaluate_2nd関数で+-を計算するように改変しました。
+
+宿題3:modularized_calculator_parenthesis.py
+括弧をstackに入れて対応する優先順位の高い括弧の場所をparenthesis_place関数で返し、括弧内を計算したあと元のstringを計算後の数字に書き直しました。上記の動作を括弧がなくなるまでwhile文で回しました。
