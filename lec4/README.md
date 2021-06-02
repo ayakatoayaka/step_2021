@@ -1,10 +1,10 @@
-#4週目の課題
+# 4週目の課題
 
-##実行方法
+## 実行方法
 ./実行ファイル名 使うpages.txt 使うlink.txt 始めるstring 終わりのstring
 
 
-##関数の説明
+## 関数の説明
 make_graph(linkのファイル名,始点に終点を入れているmap)
 :graphを作る
 
