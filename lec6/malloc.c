@@ -87,7 +87,6 @@ simple_heap_t simple_heap;
 // Add a free slot to the beginning of the free list.
 void my_add_to_free_list(simple_metadata_t *metadata) {
   assert(!metadata->next);
-
   metadata->next = simple_heap.free_head;
   simple_heap.free_head = metadata;
 }
@@ -111,7 +110,6 @@ void my_initialize() {
   simple_heap.free_head = &simple_heap.dummy;
   simple_heap.dummy.size = 0;
   simple_heap.dummy.next = NULL;
-
 }
 
 
@@ -124,8 +122,8 @@ void my_initialize() {
 // munmap_to_system.
 void *my_malloc(size_t size) {
   // Implement here!
-  simple_metadata_t *nowdata = &simple_heap.dummy;
-  simple_metadata_t *metadata = nowdata;
+  simple_metadata_t *nowdata = simple_heap.free_head;
+  simple_metadata_t *metadata = simple_heap.free_head;
   simple_metadata_t *nowprev = NULL;
   simple_metadata_t *prev = NULL;
 
@@ -146,18 +144,38 @@ void *my_malloc(size_t size) {
 
 
 
-  //Best-fit
+  // //Best-fit
+  // while(nowdata){
+  //   // printf("%d\n",(int)nowdata->size);
+  //   // if(metadata)
+  //   //     printf("%d\n",(int)metadata->size);
+    
+  //   if(nowdata->size >= size && metadata->size >= nowdata->size){
+  //       prev = nowprev;
+  //       metadata = nowdata;
+  //   }
+  //   nowprev = nowdata;
+  //   nowdata = nowdata->next;
+  //   // printf("ポインタ:%p\n",nowdata);
+    
+  //   // if(prev)
+  //   // printf("%d\n",(int)prev->size);
+    
+  // }
+
+
+
+
+
+    //worst-fit
   while(nowdata){
     // printf("%d\n",(int)nowdata->size);
     // if(metadata)
     //     printf("%d\n",(int)metadata->size);
     
-    if(nowdata->size >= size){
-      if(!metadata || metadata->size >= nowdata->size){
-        // printf("nowdata:%dmetadata:%dsize:%d\n",(int)nowdata->size,(int)metadata->size,(int)size);
+    if(nowdata->size >= size && metadata->size <= nowdata->size){
         prev = nowprev;
         metadata = nowdata;
-    }
     }
     nowprev = nowdata;
     nowdata = nowdata->next;
@@ -168,33 +186,9 @@ void *my_malloc(size_t size) {
     
   }
 
-  // while(nowprev){
-  //   if(nowprev->size >= size){
-  //         if(!metadata || metadata->size >= nowprev->size){
-  //           // printf("nowdata:%dmetadata:%dsize:%d\n",(int)nowdata->size,(int)metadata->size,(int)size);
-  //           prev = nowdata;
-  //           metadata = nowprev;
-  //       }
-  //       }
-  //       nowdata = nowprev;
-  //       nowprev = nowdata->pre;
-  // }
 
 
 
-
-  // //worst-fit
-  // while(nowdata){
-  //   if(nowdata->size >= size){
-  //   if(!metadata || metadata->size <= nowdata->size){
-  //       prev = nowprev;
-  //       metadata = nowdata;
-  //   }
-  //   }
-  //   nowprev = nowdata;
-  //   nowdata = nowdata->next;
-
-  // }
 
 
 
@@ -212,9 +206,7 @@ void *my_malloc(size_t size) {
 
 //   printf("%d\n",(int)metadata->size);
 
-  if (!metadata || metadata->size < size) {
-    // if(metadata)
-      // printf("metadata:%d,size:%d\n",(int)metadata->size,(int)size);
+  if(!metadata || metadata->size < size) {
     // There was no free slot available. We need to request a new memory region
     // from the system by calling mmap_from_system().
     //
@@ -287,7 +279,6 @@ void my_free(void *ptr) {
 
 void my_finalize() {
   // Implement here!
- 
 }
 
 void test() {
